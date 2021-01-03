@@ -1,0 +1,15 @@
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server->browser: 200, HTML
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: 200, CSS
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server->browser: 200, JS code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: 200, JSON data
+
+note over browser:
+render JSON data and show it
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+server->browser: 200, favicon
