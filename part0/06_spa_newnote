@@ -1,0 +1,10 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over browser:
+Application code includes a handler that
+renders the added note straight in the browser
+view. Backend isn't programmed to return updated
+JSON data on post
+end note
+
+server->browser: 201, json: "{"message":"note created"}"
