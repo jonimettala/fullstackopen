@@ -14,18 +14,20 @@ const Statistics = ({ good, neutral, bad, all, score }) => {
       {
         all > 0 ?
           <p>
-            good {good}<br />
-            neutral {neutral}<br />
-            bad {bad}<br />
-            all {all}<br />
-            average {all > 0 ? score / all : 'N/A'}<br />
-            positive {all > 0 ? `${100 * good / all} %` : `N/A`}
+            <Statistic name="good" value={good} />
+            <Statistic name="neutral" value={neutral} />
+            <Statistic name="bad" value={bad} />
+            <Statistic name="all" value={all} />
+            <Statistic name="average" value={all > 0 ? score / all : 'N/A'} />
+            <Statistic name="positive" value={all > 0 ? `${100 * good / all} %` : `N/A`} />
           </p>
         : <p>No feedback given</p>
       }
     </>
   )
 }
+
+const Statistic = ({ name, value }) => <>{name} {value}<br /></>
 
 const App = () => {
   // save clicks of each button to its own state
