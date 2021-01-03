@@ -1,0 +1,24 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server->browser: 302
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server->browser: 200, HTML code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: 200, CSS code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server->browser: 200, JS code
+
+note over browser:
+executes the JavaScript code
+requires JSON data now
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: 200, JSON
+
+note over browser:
+renders received JSON data
+and shows it
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+server->browser: 200, favicon
