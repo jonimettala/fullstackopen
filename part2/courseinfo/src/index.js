@@ -8,9 +8,13 @@ const Header = ({ course }) => {
 }
 
 const Total = ({ course }) => {
-  const sum = course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises
+  let sum = 0
+  for (let part of course.parts) {
+    sum += part.exercises
+  }
+  
   return(
-    <p>Number of exercises {sum}</p>
+    <p><strong>total of {sum} exercises</strong></p>
   ) 
 }
 
@@ -38,6 +42,7 @@ const Course = ({ course }) => {
     <>
       <Header course={course} />
       <Content course={course} />
+      <Total course={course} />
     </>
   )
 }
@@ -63,8 +68,8 @@ const App = () => {
         id: 3
       },
       {
-        name: 'Magic and stuff',
-        exercises: 777,
+        name: 'Everything about Vim',
+        exercises: 11,
         id: 4
       }
     ]
