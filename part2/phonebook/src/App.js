@@ -2,15 +2,24 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+
+  const handleNameChange = (e) => {
+    setNewName(e.target.value)
+  }
+
+  const handleNumberChange = (e) => {
+    setNewNumber(e.target.value)
+  }
 
   const addPerson = (e) => {
     e.preventDefault()
     console.log(e)
     if (newName.length > 0 && !nameIsInPhonebook(newName)) {
-      setPersons(persons.concat({ name: newName }))
+      setPersons(persons.concat({ name: newName, number: newNumber }))
     }
   }
 
@@ -24,14 +33,10 @@ const App = () => {
     return false
   }
 
-  const handleNameChange = (e) => {
-    setNewName(e.target.value)
-  }
-
   const Person = ({ person }) => {
     return (
       <>
-        {person.name}<br />
+        {person.name} {person.number}<br />
       </>
     )
   }
@@ -41,7 +46,8 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
+          name: <input value={newName} onChange={handleNameChange} /><br />
+          number: <input value={newNumber} onChange={handleNumberChange} />
         </div>
         <div>
           <button type='submit'>add</button>
