@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
+
 const App = () => {
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -41,32 +45,21 @@ const App = () => {
     return false
   }
 
-  const Person = ({ person }) => {
-    return (
-      <>
-        {person.name} {person.number}<br />
-      </>
-    )
-  }
-
   const personsToShow = persons.filter((person) => person.name.includes(filter))
 
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={filter} onChange={handleFilterChange} /><br />
-      <form onSubmit={addPerson}>
-        <div>
-          <h2>Add new</h2>
-          name: <input value={newName} onChange={handleNameChange} /><br />
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
+      <Filter filter={filter} handleFilterChange={handleFilterChange} />
+      <PersonForm 
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      {personsToShow.map((person) => <Person person={person} key={person.name} />)}
+      <Persons persons={personsToShow} />
     </div>
   )
 }
