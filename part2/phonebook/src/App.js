@@ -9,9 +9,19 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault()
     console.log(e)
-    if (newName.length > 0) {
+    if (newName.length > 0 && !nameIsInPhonebook(newName)) {
       setPersons(persons.concat({ name: newName }))
     }
+  }
+
+  const nameIsInPhonebook = (name) => {
+    for (let person of persons) {
+      if (person.name === name) {
+        window.alert(`${newName} is already added to phonebook`)
+        return true
+      }
+    }
+    return false
   }
 
   const handleNameChange = (e) => {
