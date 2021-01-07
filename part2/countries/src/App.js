@@ -4,7 +4,6 @@ import axios from 'axios'
 import CountryList from './CountryList'
 
 const App = () => {
-
   const [ countries, setCountries ] = useState([])
   const [ filter, setFilter ] = useState('')
 
@@ -21,12 +20,16 @@ const App = () => {
   }
   useEffect(fetchCountries, [])
 
-  const countriesToShow = countries.filter((country) => country.name.toLowerCase().includes(filter))
+  const handleShowButtonClick = (country, e) => {
+    setFilter(country)
+  }
+
+  const countriesToShow = countries.filter((country) => country.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <>
       filter shown with <input value={filter} onChange={handleFilterChange} /><br />
-      <CountryList countries={countriesToShow} />
+      <CountryList countries={countriesToShow} handleShowButtonClick={handleShowButtonClick} />
     </>
   )
 }
