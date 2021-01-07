@@ -29,7 +29,10 @@ const App = () => {
   return (
     <>
       filter shown with <input value={filter} onChange={handleFilterChange} /><br />
-      <CountryList countries={countriesToShow} handleShowButtonClick={handleShowButtonClick} />
+      <CountryList 
+        countries={countriesToShow}
+        handleShowButtonClick={handleShowButtonClick}
+      />
     </>
   )
 }
