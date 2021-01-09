@@ -4,12 +4,14 @@ import personService from './services/persons'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+import Notice from './Notice'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [ notice, setNotice ] = useState(null)
 
   const handleNameChange = (e) => {
     setNewName(e.target.value)
@@ -38,6 +40,7 @@ const App = () => {
         .create({ name: newName, number: newNumber })
         .then(response => {
       setPersons(persons.concat(response))
+      handleShowNotice(`Added ${newName}`)
       })
     }
   }
@@ -59,6 +62,7 @@ const App = () => {
                 personIndex++
               }
               setPersons([...newPersons])
+              handleShowNotice(`Updated ${newName}'s number`)
             })
         }
         return true
@@ -82,8 +86,16 @@ const App = () => {
             personIndex++
           }
           setPersons([...newPersons])
+          handleShowNotice(`Removed ${name}`)
         })
     }
+  }
+
+  const handleShowNotice = (text, type = null) => {
+    setNotice({text: text, type: type})
+    setTimeout(() => {
+      setNotice(null)
+    }, 5000)
   }
 
   const personsToShow = persons.filter((person) => person.name.includes(filter))
@@ -91,6 +103,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {notice !== null ? <Notice notice={notice} /> : <></>}
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <PersonForm 
         addPerson={addPerson}
