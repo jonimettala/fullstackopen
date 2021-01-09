@@ -88,6 +88,17 @@ const App = () => {
           setPersons([...newPersons])
           handleShowNotice(`Removed ${name}`)
         })
+        .catch(error => { handleShowNotice(`${name} was already removed. Now they have been removed from your list too.`, 'error')
+        const newPersons = persons
+        let personIndex = 0
+        for (let person of newPersons) {
+          if (person.id === id) {
+            newPersons.splice(personIndex, 1)
+          }
+          personIndex++
+        }
+        setPersons([...newPersons])
+      })
     }
   }
 
