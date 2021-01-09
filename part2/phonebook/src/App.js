@@ -33,8 +33,7 @@ const App = () => {
 
   const addPerson = (e) => {
     e.preventDefault()
-    console.log(e)
-    if (newName.length > 0 && !nameIsInPhonebook(newName)) {
+    if (newName.length > 0 && !nameIsInPhonebook(newName, newNumber)) {
       personService
         .create({ name: newName, number: newNumber })
         .then(response => {
@@ -43,10 +42,25 @@ const App = () => {
     }
   }
 
-  const nameIsInPhonebook = (name) => {
+  const nameIsInPhonebook = (name, newNumber) => {
     for (let person of persons) {
       if (person.name === name) {
-        window.alert(`${newName} is already added to phonebook`)
+        let wantsUpdate = window.confirm(`${newName} is already added to phonebook, would you like to replace their number with the new one?`)
+        if (wantsUpdate) {
+          personService
+            .update(person.id, person.name, newNumber)
+            .then(updatedPerson => {
+              const newPersons = persons
+              let personIndex = 0
+              for (let p of newPersons) {
+                if (p.id === person.id) {
+                  newPersons.splice(personIndex, 1, updatedPerson)
+                }
+                personIndex++
+              }
+              setPersons([...newPersons])
+            })
+        }
         return true
       }
     }
