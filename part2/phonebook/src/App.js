@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
+import personService from './services/persons'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
@@ -23,10 +23,10 @@ const App = () => {
     setFilter(e.target.value)
   }
   const fetchPersons = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initPersons => {
+        setPersons(initPersons)
       })
   }
   useEffect(fetchPersons, [])
@@ -35,10 +35,10 @@ const App = () => {
     e.preventDefault()
     console.log(e)
     if (newName.length > 0 && !nameIsInPhonebook(newName)) {
-      const newPerson = { name: newName, number: newNumber }
+//      const newPerson = { name: newName, number: newNumber }
       setPersons(persons.concat({ name: newName, number: newNumber }))
-      axios
-        .post('http://localhost:3001/persons', { name: newName, number: newNumber })
+      personService
+        .create({ name: newName, number: newNumber })
         .then(response => {
       console.log(response)
       })
