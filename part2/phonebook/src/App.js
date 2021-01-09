@@ -35,12 +35,10 @@ const App = () => {
     e.preventDefault()
     console.log(e)
     if (newName.length > 0 && !nameIsInPhonebook(newName)) {
-//      const newPerson = { name: newName, number: newNumber }
-      setPersons(persons.concat({ name: newName, number: newNumber }))
       personService
         .create({ name: newName, number: newNumber })
         .then(response => {
-      console.log(response)
+      setPersons(persons.concat(response))
       })
     }
   }
@@ -53,6 +51,25 @@ const App = () => {
       }
     }
     return false
+  }
+
+  const handleDelete = (name, id) => {
+    let wantsDelete = window.confirm(`Want to delete ${name}?`);
+    if (wantsDelete) {
+      personService
+        .remove(id)
+        .then(() => {
+          const newPersons = persons
+          let personIndex = 0
+          for (let person of newPersons) {
+            if (person.id === id) {
+              newPersons.splice(personIndex, 1)
+            }
+            personIndex++
+          }
+          setPersons([...newPersons])
+        })
+    }
   }
 
   const personsToShow = persons.filter((person) => person.name.includes(filter))
@@ -69,7 +86,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }
