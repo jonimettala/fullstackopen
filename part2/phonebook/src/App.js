@@ -35,7 +35,13 @@ const App = () => {
     e.preventDefault()
     console.log(e)
     if (newName.length > 0 && !nameIsInPhonebook(newName)) {
+      const newPerson = { name: newName, number: newNumber }
       setPersons(persons.concat({ name: newName, number: newNumber }))
+      axios
+        .post('http://localhost:3001/persons', { name: newName, number: newNumber })
+        .then(response => {
+      console.log(response)
+      })
     }
   }
 
