@@ -2,8 +2,34 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 
+const morganFormat = (tokens, req, res) => {
+  if (tokens.method(req, res) === 'POST') {
+    const personToAdd = req.body
+    const person = {}
+    person.name = personToAdd.name
+    person.number = personToAdd.number
+
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms',
+      JSON.stringify(person)
+    ].join(' ')
+  } else {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms'
+    ].join(' ')
+  }
+}
+
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan(morganFormat))
 
 let persons = [
   { 
