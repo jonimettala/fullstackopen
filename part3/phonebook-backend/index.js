@@ -49,10 +49,23 @@ app.delete('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
   const person = request.body
-  person.id = Math.floor(Math.random() * (99999 - 5) + 5)
-  persons = persons.concat(person)
-
-  response.json(person)
+  
+  if (!person.name || !person.number) {
+    return response.status(400).json({ 
+      error: 'The request must include both name and number' 
+    })
+  } else  {
+    const oldPerson = persons.find(p => p.name === person.name)
+    if (oldPerson) {
+      return response.status(400).json({ 
+        error: `Name ${person.name} already exists in phonebook`
+      })
+    } else {
+      person.id = Math.floor(Math.random() * (99999 - 5) + 5)
+      persons = persons.concat(person)
+      response.status(201).json(person)
+    }
+  }
 })
 
 app.get('/info', (request, response) => {
